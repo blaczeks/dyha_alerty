@@ -1,129 +1,120 @@
 <!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>DYHA IRL — jedna nakładka Tipply</title>
-  <style>
-    :root { color-scheme: dark; font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-    * { box-sizing: border-box; }
-    html,body { margin:0; min-height:100%; }
-    body { background: #0d1020; color: #f5f5fa; }
-    .setup { max-width: 900px; padding: clamp(20px, 5vw, 48px); margin: 0 auto; }
-    .brand { font-size: 12px; letter-spacing: .14em; color: #f8a84b; font-weight: 800; }
-    h1 { font-size: clamp(27px, 5vw, 44px); margin: 10px 0 8px; letter-spacing: -.03em; }
-    p { line-height: 1.55; color: #b8bdd1; }
-    .intro { margin-bottom: 30px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .panel { background: #181c31; border: 1px solid #30354c; padding: 18px; border-radius: 16px; }
-    label { display: block; font-weight: 700; margin-bottom: 11px; }
-    .small { display: block; color: #aeb5ce; font-size: 12px; font-weight: 400; margin-top: 5px; }
-    input { width: 100%; padding: 14px 13px; font-size: 14px; background: #0c1020; color: #fff; border: 1px solid #424864; border-radius: 10px; outline: none; }
-    input:focus { border-color: #e9a453; box-shadow: 0 0 0 3px #e9a45320; }
-    .actions { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0 16px; }
-    button, .buttonlike { display: inline-flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; padding:13px 18px; border-radius:11px; cursor:pointer; border:1px solid #46506e; color:white; background:#272d47; text-decoration:none; }
-    button.primary { background:linear-gradient(90deg,#ffad47,#ed7268); border:0; color:#1a1112; }
-    button:disabled { cursor:not-allowed; opacity:0.48; }
-    .result { display:none; border:1px solid #3c654c; background:#14281f; padding:18px; border-radius:14px; margin-top:20px; }
-    .result.active { display:block; }
-    .result input { margin:10px 0; color:#d5f3d8; }
-    .hint { border-left:3px solid #ffac62; padding:12px 16px; background:#2b241e; border-radius:6px; margin:20px 0 0; font-size:14px; line-height:1.6; color:#f2d8b6; }
-    .foot { padding:18px 0 8px; font-size:12px; color:#8e95ae; }
-    .status { margin:0; font-size:13px; color:#ffb0a6; min-height:20px; }
-    @media(max-width:650px){.grid{grid-template-columns:1fr}.actions{display:grid;grid-template-columns:1fr}.setup{padding:20px}}
-
-    /* Tryb transmisji: całkowicie przezroczyste tło; widgety zajmują jedno źródło Web w PRISM. */
-    html.overlay, html.overlay body { width:100%; height:100%; overflow:hidden; background:transparent !important; }
-    .overlay-root { position:fixed; inset:0; width:100%; height:100%; overflow:hidden; pointer-events:none; background:transparent !important; }
-    .overlay-root iframe { position:absolute; inset:0; height:100%; width:100%; display:block; border:0; padding:0; margin:0; background:transparent !important; pointer-events:none; }
-    .overlay-root iframe[name="time"] { z-index:10; }
-    .overlay-root iframe[name="top"] { z-index:20; }
-    .overlay-root iframe[name="goal"] { z-index:30; }
-    .overlay-root iframe[name="alerts"] { z-index:40; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>DYHA IRL – 4 widgety w 1 linku · v3</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+html,body{padding:0;margin:0;min-height:100%}
+body{background:#101827;color:#f5f7ff}
+.setup{max-width:880px;margin:0 auto;padding:30px 18px 54px}
+h1{font-size:clamp(29px,4vw,42px);line-height:1.1;letter-spacing:-.035em;margin:12px 0}
+p{line-height:1.55;color:#b8c5d8}
+.eyebrow{font-weight:800;color:#ffb058;letter-spacing:.12em;font-size:12px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+.field{background:#1b2a3c;border:1px solid #344a65;padding:16px;border-radius:13px}
+.field label{display:block;font-weight:750;font-size:15px;margin:0 0 8px}
+.field small{color:#a7b6ce}
+.field input,.result input{display:block;width:100%;min-width:0;padding:12px 10px;border:1px solid #64748b;border-radius:8px;background:#0e1b2b;color:#fff;font:14px system-ui}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+button,.btn{border:0;border-radius:9px;background:#ffb058;color:#1b1b20;padding:12px 15px;font:750 14px system-ui;cursor:pointer;text-decoration:none}
+button.subtle,.btn.subtle{background:#34445d;color:white}
+.help{border-left:4px solid #ffb058;padding:13px 14px;border-radius:8px;background:#3b3226;color:#ffe3bd;font-size:14px}
+.result{display:none;background:#17382f;border:1px solid #477e6a;padding:17px;border-radius:12px;margin:24px 0}
+.result.active{display:block}
+.result input{margin:10px 0}
+.note{color:#ffca9e;min-height:20px}
+@media(max-width:650px){.fields{grid-template-columns:1fr}}
+/* W TRYBIE LIVE WARSTWA HTML JEST W PEŁNI PRZEZROCZYSTA. */
+html.live,html.live body{width:100%;height:100%;overflow:hidden;background:transparent!important;color:transparent!important;color-scheme:normal!important}
+html.live .overlay{position:fixed;inset:0;width:100%;height:100%;background:transparent!important;overflow:hidden;pointer-events:none}
+html.live .slot{position:absolute;overflow:hidden;background:transparent!important;pointer-events:none}
+html.live .slot iframe{display:block;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent!important;pointer-events:none;overflow:hidden}
+.slot.time{left:33%;top:1.2%;width:34%;height:15%}
+.slot.top{left:1%;top:1%;width:30%;height:24%}
+.slot.goal{right:1%;top:1%;width:30%;height:24%}
+.slot.alerts{left:16%;top:28%;width:68%;height:53%}
+/* Szachownica tylko do diagnostyki: pozwala wykryć biel POCHODZĄCĄ Z IFRAME. */
+html.live.inspect .overlay{background-color:#ddd!important;background-image:linear-gradient(45deg,#aaa 25%,transparent 25%),linear-gradient(-45deg,#aaa 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#aaa 75%),linear-gradient(-45deg,transparent 75%,#aaa 75%)!important;background-size:36px 36px!important;background-position:0 0,0 18px,18px -18px,-18px 0!important}
+html.live.inspect .slot{outline:2px solid #e77811}
+html.live.inspect .slot:before{content:attr(data-label);position:absolute;z-index:10;top:0;left:0;background:#ffba64;color:#171717;padding:2px 6px;font:700 11px system-ui}
+html.live.inspect .slot iframe{position:relative;z-index:1}
+html.live.demo .slot{outline:1px solid rgba(255,255,255,.75)}
+.demo-widget{height:100%;width:100%;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(31,100,220,.7);color:white;font:800 clamp(14px,2vw,25px) system-ui;text-shadow:0 1px 4px #111;padding:8px}
+.slot.top .demo-widget{background:rgba(136,61,206,.72)}
+.slot.goal .demo-widget{background:rgba(28,154,109,.72)}
+.slot.alerts .demo-widget{background:rgba(224,110,40,.75)}
+</style>
 </head>
 <body>
 <main class="setup" id="setup">
-  <div class="brand">DYHA_N · STREAM IRL</div>
-  <h1>Wszystkie widgety Tipply.<br>Jeden link do PRISM.</h1>
-  <p class="intro">Wklej cztery <strong>linki do widgetów</strong> skopiowane z konfiguratora Tipply. Strona wygeneruje jeden link, który wkleisz jako <strong>Widget → Web</strong> w PRISM Live Studio. Kamera i mikrofon pozostają w PRISM.</p>
-  <section class="grid">
-    <div class="panel"><label for="time">⏱️ Licznik czasu <span class="small">Link widgetu odliczania czasu do końca streama</span></label><input id="time" type="url" placeholder="https://…" autocomplete="off" spellcheck="false" /></div>
-    <div class="panel"><label for="top">🏆 TOP DONATE <span class="small">Link widgetu rankingu wpłat z Tipply</span></label><input id="top" type="url" placeholder="https://…" autocomplete="off" spellcheck="false" /></div>
-    <div class="panel"><label for="goal">🎯 Cel donate <span class="small">Link widgetu celu wpłat z Tipply</span></label><input id="goal" type="url" placeholder="https://…" autocomplete="off" spellcheck="false" /></div>
-    <div class="panel"><label for="alerts">💸 Alerty + lektor <span class="small">Link widgetu powiadomień o wiadomości, z TTS</span></label><input id="alerts" type="url" placeholder="https://…" autocomplete="off" spellcheck="false" /></div>
+  <div class="eyebrow">DYHA_N / IRL · v3</div>
+  <h1>4 widgety Tipply. Jeden link.</h1>
+  <p>Wpisz osobne linki do <strong>widgetów</strong> z Tipply (nie link do strony wpłat). Strona wygeneruje jeden adres dla PRISM Android. Najpierw sprawdź test bez Tipply.</p>
+  <div class="actions"><a class="btn" href="?demo=1" target="_blank" rel="noopener">TEST 4 kolorowych widgetów</a><a class="btn subtle" href="?inspect=1" target="_blank" rel="noopener">TEST szachownicy</a></div>
+  <section class="fields">
+   <div class="field"><label for="time">⏱️ Licznik czasu</label><input id="time" type="url" placeholder="https://…" spellcheck="false"><small>Link widgetu odliczania Tipply</small></div>
+   <div class="field"><label for="top">🏆 TOP DONATE</label><input id="top" type="url" placeholder="https://…" spellcheck="false"><small>Link widgetu rankingu wpłat</small></div>
+   <div class="field"><label for="goal">🎯 Cel donate</label><input id="goal" type="url" placeholder="https://…" spellcheck="false"><small>Link widgetu celu wpłat</small></div>
+   <div class="field"><label for="alerts">💸 Alerty donate + lektor</label><input id="alerts" type="url" placeholder="https://…" spellcheck="false"><small>Link widgetu powiadomień Tipply</small></div>
   </section>
-  <div class="actions">
-    <button class="primary" type="button" id="generate">Wygeneruj jeden link</button>
-    <button type="button" id="testSingle">Otwórz pierwszy wpisany widget</button>
-  </div>
-  <p id="status" class="status" aria-live="polite"></p>
+  <div class="actions"><button id="generate">Wygeneruj jeden link do PRISM</button><button id="direct" class="subtle">Otwórz pierwszy widget osobno</button></div>
+  <p class="note" id="status" role="status"></p>
   <section class="result" id="result">
-    <strong>✅ Gotowy link do PRISM</strong>
-    <p>Skopiuj cały adres z pola poniżej (łącznie z częścią po znaku #).</p>
-    <input id="output" readonly spellcheck="false" aria-label="Wspólny URL nakładki" />
-    <div class="actions"><button type="button" id="copy">Kopiuj link</button><a id="preview" class="buttonlike" target="_blank" rel="noopener noreferrer">Sprawdź w nowej karcie</a></div>
-    <p style="font-size:13px">Gdy już sprawdzisz link, w PRISM dodaj <strong>jedno</strong> źródło Web i wklej go tam. Jeśli widgety się nie wyświetlą lub pokażą błąd, Tipply może blokować osadzanie stron w iframe — samo sklejanie URL tego nie naprawi.</p>
+   <strong>Gotowy link do PRISM (skopiuj CAŁOŚĆ, razem z #overlay=)</strong>
+   <input id="out" readonly spellcheck="false">
+   <div class="actions"><button id="copy">Kopiuj link</button><a id="open" class="btn subtle" target="_blank" rel="noopener">Podgląd</a><a id="inspect" class="btn subtle" target="_blank" rel="noopener">Diagnostyka na szachownicy</a></div>
   </section>
-  <p class="hint"><strong>Ważne:</strong> to eksperymentalne połączenie za pomocą ramek iframe, nieoficjalna integracja Tipply. Nie jest gwarantowane, że zadziała w PRISM, zwłaszcza dźwięk alertów. Linki do widgetów pozostają w wygenerowanym adresie, a nie w kodzie publicznego repozytorium; mimo to każdy, kto otrzyma wygenerowany adres, może je odczytać. Nie publikuj tego adresu.</p>
-  <div class="foot">DYHA IRL · Nie wymagamy kont ani przesyłania linków na serwer. Generator działa w Twojej przeglądarce.</div>
+  <div class="help"><b>Ważne:</b> biała strona w zwykłej przeglądarce <em>nie dowodzi</em> braku przezroczystości (przeglądarka często pokazuje przezroczysty dokument na białym tle). Jeśli po kliknięciu „Diagnostyka na szachownicy” w obrębie któregoś widgetu pojawia się biały prostokąt, biel pochodzi z zawartości osadzonej strony Tipply – nie da się jej usunąć stylem strony nadrzędnej. Jeżeli wprost otwarty link Tipply też zgłasza błąd, problem jest po stronie tego źródła.</div>
+  <p><small>Linki zapisują się w adresie po znaku #, nie są umieszczane w publicznym kodzie GitHub. Nie udostępniaj wygenerowanego adresu innym osobom. Alerty mogą być niewidoczne bez aktywnej wpłaty/testu; lektor może być ograniczony przez Android WebView.</small></p>
 </main>
 <script>
-(function(){
-  'use strict';
-  const ids=['time','top','goal','alerts'];
-  function validUrl(v){ try { const u = new URL(v); return u.protocol === 'https:' && !!u.hostname; } catch {return false;} }
-  function encodeConfig(config){ return encodeURIComponent(JSON.stringify(config)); }
-  function baseUrl(){ return location.href.split('#')[0]; }
-  function getState(){ return Object.fromEntries(ids.map(k=>[k,document.getElementById(k).value.trim()])); }
-  function showOverlay(data){
-    document.documentElement.classList.add('overlay');
-    document.getElementById('setup').remove();
-    const root=document.createElement('div');root.className='overlay-root';
-    for(const k of ids){
-      const url=(data && typeof data[k]==='string')?data[k]:'';
-      if(!validUrl(url)) continue;
-      const frame=document.createElement('iframe');
-      frame.name=k;
-      frame.src=url;
-      frame.title=k;
-      frame.setAttribute('allow','autoplay; fullscreen');
-      frame.setAttribute('scrolling','no');
-      root.appendChild(frame);
-    }
-    document.body.appendChild(root);
-  }
-  if(location.hash.startsWith('#overlay=')) {
-    try {
-      const cfg=JSON.parse(decodeURIComponent(location.hash.slice('#overlay='.length)));
-      if(cfg && typeof cfg==='object' && ids.some(k=>validUrl(cfg[k] || ''))){showOverlay(cfg);return;}
-    } catch(e){ /* invalid URL shows config instead of blank stream */ }
-  }
-  const status=document.getElementById('status'),result=document.getElementById('result');
-  document.getElementById('generate').addEventListener('click',()=>{
-    const data=getState();
-    const nonEmpty=ids.filter(k=>data[k]);
-    if(!nonEmpty.length){status.textContent='Wklej najpierw przynajmniej jeden link do widgetu Tipply.';return;}
-    const bad=nonEmpty.filter(k=>!validUrl(data[k]));
-    if(bad.length){status.textContent='Nieprawidłowy adres: '+bad.join(', ')+'. Użyj pełnego linku zaczynającego się od https://';return;}
-    const out=baseUrl()+'#overlay='+encodeConfig(data);
-    document.getElementById('output').value=out;
-    document.getElementById('preview').href=out;
-    result.classList.add('active');
-    status.textContent=nonEmpty.length===4?'Wygenerowano link z 4 widgetami.':'Wygenerowano link z '+nonEmpty.length+' widgetami; możesz uzupełnić pozostałe później.';
-    result.scrollIntoView({behavior:'smooth',block:'nearest'});
-  });
-  document.getElementById('copy').addEventListener('click',async()=>{
-    const v=document.getElementById('output').value;
-    try{await navigator.clipboard.writeText(v);status.textContent='Skopiowano link do schowka.';}
-    catch(e){document.getElementById('output').select();status.textContent='Zaznaczony link: skopiuj go ręcznie (Ctrl+C).';}
-  });
-  document.getElementById('testSingle').addEventListener('click',()=>{
-    const data=getState();
-    const url=ids.map(k=>data[k]).find(validUrl);
-    if(!url){status.textContent='Wklej najpierw poprawny link Tipply (https://…).';return;}
-    window.open(url,'_blank','noopener,noreferrer');
-  });
+(()=>{
+'use strict';
+const names={time:'LICZNIK CZASU',top:'TOP DONATE',goal:'CEL WPŁAT',alerts:'ALERTY TIPPLY + TTS'};
+const keys=Object.keys(names);
+const params=new URLSearchParams(location.search);
+const plain=location.href.split('#')[0].split('?')[0];
+const valid=(v)=>{try{const u=new URL(v);return u.protocol==='https:'&&!!u.hostname}catch{return false}};
+const readHash=()=>{if(!location.hash.startsWith('#overlay='))return null;try{const data=JSON.parse(decodeURIComponent(location.hash.slice(9)));return data&&typeof data==='object'?data:null}catch{return null}};
+function showOverlay(data,mode){
+ document.documentElement.classList.add('live');
+ if(mode==='inspect')document.documentElement.classList.add('inspect');
+ if(mode==='demo')document.documentElement.classList.add('demo');
+ document.getElementById('setup').remove();
+ const holder=document.createElement('div');holder.className='overlay';
+ for(const key of keys){
+   const src=data?.[key];if(mode!=='demo'&&!valid(src||''))continue;
+   const slot=document.createElement('div');slot.className='slot '+key;slot.dataset.label=names[key];
+   if(mode==='demo'){const sample=document.createElement('div');sample.className='demo-widget';sample.textContent=names[key]+' (TEST)';slot.appendChild(sample)}
+   else{const frame=document.createElement('iframe');frame.title=names[key];frame.src=src;frame.setAttribute('allow','autoplay; fullscreen');frame.setAttribute('loading','eager');slot.appendChild(frame)}
+   holder.appendChild(slot);
+ }
+ document.body.appendChild(holder);
+}
+const stored=readHash();
+if(params.get('demo')==='1'){showOverlay(null,'demo');return}
+if(params.get('inspect')==='1'){showOverlay(stored||{},'inspect');return}
+if(stored && keys.some(k=>valid(stored[k]||''))){showOverlay(stored,'live');return}
+const get=()=>Object.fromEntries(keys.map(k=>[k,document.getElementById(k).value.trim()]));
+const status=document.getElementById('status');
+document.getElementById('generate').addEventListener('click',()=>{
+ const data=get();const present=keys.filter(k=>data[k]);
+ if(!present.length){status.textContent='Wklej co najmniej jeden link Tipply.';return}
+ if(present.some(k=>!valid(data[k]))){status.textContent='Wklej pełny, poprawny adres https:// dla każdego podanego widgetu.';return}
+ const tail='#overlay='+encodeURIComponent(JSON.stringify(data));
+ const output=plain+tail;
+ document.getElementById('out').value=output;
+ document.getElementById('open').href=output;
+ document.getElementById('inspect').href=plain+'?inspect=1'+tail;
+ document.getElementById('result').classList.add('active');
+ status.textContent='Wygenerowano '+present.length+' źródła. Przed streamem przetestuj je na szachownicy oraz w PRISM.';
+});
+document.getElementById('copy').addEventListener('click',async()=>{const inp=document.getElementById('out');try{await navigator.clipboard.writeText(inp.value);status.textContent='Skopiowano cały link.'}catch{inp.select();status.textContent='Adres zaznaczony — skopiuj Ctrl+C.'}});
+document.getElementById('direct').addEventListener('click',()=>{const first=Object.values(get()).find(valid);if(!first){status.textContent='Najpierw wklej link widgetu Tipply.';return}window.open(first,'_blank','noopener,noreferrer')});
 })();
 </script>
 </body>
