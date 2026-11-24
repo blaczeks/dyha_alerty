@@ -1,0 +1,20 @@
+DYHA IRL — 4 widgety Tipply pod jednym adresem
+
+UWAGA: Nieoficjalna, testowa metoda. Tipply może blokować osadzanie widgetów wewnątrz innych stron. Nie można zagwarantować obrazu, TTS ani dźwięków w PRISM. Nie kupuj subskrypcji tylko ze względu na tę metodę.
+
+PUBLIKACJA NA GITHUB PAGES
+1. Zaloguj się do GitHub. Utwórz PUBLICZNE repozytorium np. dyha-irl-overlay.
+2. W repozytorium wybierz Add file > Upload files.
+3. Dodaj plik index.html i kliknij Commit changes.
+4. Wybierz Settings > Pages > Build and deployment: Deploy from a branch; branch main, folder /(root); Save.
+5. Otwórz adres podany w Settings > Pages. Zwykle: https://TWOJ-LOGIN.github.io/dyha-irl-overlay/
+6. W czterech polach wklej bezpośrednie adresy do widgetów z Tipply: licznik, TOP donate, cel, alerty.
+7. Kliknij Wygeneruj jeden link. Skopiuj CAŁY adres wraz z fragmentem po #.
+8. Sprawdź wygenerowany link w nowej karcie. Następnie dodaj go w PRISM: My Studio > Widget > Web.
+9. Uruchom test alertu w Tipply i obejrzyj stream na drugim urządzeniu, weryfikując TTS i dźwięki.
+
+BEZPIECZEŃSTWO
+Repozytorium zawiera jedynie pustą stronę, bez Twoich linków Tipply. Jednak wygenerowany długi adres zawiera te linki i nie powinien być publikowany ani wysyłany osobom trzecim. Wygenerowany URL nie jest w pełni prywatny ani szyfrowany.
+
+JEŚLI WYSKAKUJE 'STRONA WYMAGA ODŚWIEŻENIA'
+Oznacza to, że osadzanie może nie działać w tym środowisku. Spróbuj dla jednego widgetu, najpierw jego bezpośredniego URL w PRISM, potem URL strony zbiorczej. Gdy tylko bezpośredni URL działa, przyczyną może być ograniczenie ramek iframe. Nie istnieje pewny sposób usunięcia tej blokady po stronie statycznej strony HTML. Pewny wariant: OBS uruchomiony w domu z osobnymi źródłami, telefon jako kamera przez VDO.Ninja. 
